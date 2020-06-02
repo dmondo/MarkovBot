@@ -15,13 +15,13 @@ const App = (): JSX.Element => {
     fetch('/twitter')
       .then((data) => data.json())
       .then((twts) => {
-        setTweets(twts.statuses.map((twt: any) => {
-          return {
+        setTweets(twts.statuses.map((twt: any) => (
+          {
             user: twt.user.name,
             text: twt.text,
             id: twt.id,
-          };
-        }));
+          }
+        )));
       });
   }, []);
 
