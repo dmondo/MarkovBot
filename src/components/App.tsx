@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import buildModel from '../../lib/markovModel';
 // import ReactDOM from 'react-dom';
 
 interface ITweet {
@@ -29,6 +30,7 @@ const App = (): JSX.Element => {
   const getTweets = async (query: string): Promise<void> => {
     const res = await fetch(`/twitter/${query}`);
     const twts = await res.json();
+
     setTweets(twts.statuses.map((twt: any) => (
       {
         user: twt.user.name,
@@ -36,6 +38,8 @@ const App = (): JSX.Element => {
         id: twt.id,
       }
     )));
+
+    const model = buildModel(tweets, 3);
     // then: render some sort of loading/processing indication to screen
     // build markov model
     // finally, render generated tweet to screen
