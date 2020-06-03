@@ -6,7 +6,6 @@ interface ITweet {
 
 const buildModel = (tweets: ITweet[], n: number): object => {
   const model = {};
-  console.log('markov tweets', tweets);
   tweets.forEach((tweet) => {
     const txt = tweet.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
     const words = txt.split(' ');

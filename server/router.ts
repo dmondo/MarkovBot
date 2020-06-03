@@ -46,7 +46,6 @@ router.get('/twitter/:user', (req: Request, res: Response): Response => {
 });
 
 router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
-  console.log('here!!');
   const twitter = new Twit(twitterConfig);
 
   // @ts-ignore
