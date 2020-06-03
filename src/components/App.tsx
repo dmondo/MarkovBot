@@ -12,6 +12,7 @@ const App = (): JSX.Element => {
   const [tweets, setTweets] = useState<ITweet[]>([]);
 
   useEffect(() => {
+    // TODO: temp, remove later
     fetch('/twitter')
       .then((data) => data.json())
       .then((twts) => {
@@ -25,18 +26,19 @@ const App = (): JSX.Element => {
       });
   }, []);
 
-  const getTweets = (query: string): void => {
-    fetch(`/twitter/${query}`)
-      .then((data) => data.json())
-      .then((twts) => (
-        setTweets(twts.statuses.map((twt: any) => (
-          {
-            user: twt.user.name,
-            text: twt.text,
-            id: twt.id,
-          }
-        )))
-      ));
+  const getTweets = async (query: string): Promise<void> => {
+    const res = await fetch(`/twitter/${query}`);
+    const twts = await res.json();
+    setTweets(twts.statuses.map((twt: any) => (
+      {
+        user: twt.user.name,
+        text: twt.text,
+        id: twt.id,
+      }
+    )));
+    // then: render some sort of loading/processing indication to screen
+    // build markov model
+    // finally, render generated tweet to screen
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
