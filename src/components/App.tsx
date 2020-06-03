@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
-// import ReactDOM from 'react-dom';
 
 interface ITweet {
   user: string;
@@ -12,28 +11,12 @@ interface ITweet {
 const App = (): JSX.Element => {
   const [user, setUser] = useState<string>('');
   const [tweets, setTweets] = useState<ITweet[]>([]);
-
-  // useEffect(() => {
-  //   // TODO: temp, remove later
-  //   fetch('/twitter')
-  //     .then((data) => data.json())
-  //     .then((twts) => {
-  //       setTweets(twts.statuses.map((twt: any) => (
-  //         {
-  //           user: twt.user.name,
-  //           text: twt.text,
-  //           id: twt.id,
-  //         }
-  //       )));
-  //     });
-  // }, []);
+  const [model, setModel] = useState<any>({});
 
   const getTweets = async (query: string): Promise<void> => {
     let tweetArray = [];
     const res = await fetch(`/twitter/${query}`);
     const twts = await res.json();
-
-    console.log('twts', twts);
 
     const moreTweets = twts.map((twt: any) => (
       {
@@ -45,41 +28,40 @@ const App = (): JSX.Element => {
 
     tweetArray = [...tweetArray, ...moreTweets];
 
-    const maxId = tweetArray[tweetArray.length - 1].id;
+    for (let i = 0; i < 18; i += 1) {
+      const maxId = tweetArray[tweetArray.length - 1].id;
 
-    console.log('maxId', maxId);
+      // ignore linter because we need blocking between iterations
+      /* eslint no-await-in-loop: 0 */
+      const nres = await fetch(`/twitter/${query}/${maxId}`);
+      const ntwts = await nres.json();
 
-    const nres = await fetch(`/twitter/${query}/${maxId}`);
-    const ntwts = await nres.json();
+      const nmoreTweets = ntwts.map((twt: any) => (
+        {
+          user: twt.user.name,
+          text: twt.text,
+          id: twt.id_str,
+        }
+      ));
 
-    console.log('ntwts', ntwts);
-
-    const nmoreTweets = ntwts.map((twt: any) => (
-      {
-        user: twt.user.name,
-        text: twt.text,
-        id: twt.id_str,
-      }
-    ));
-
-    console.log('nmoreTweets', nmoreTweets);
-
-    tweetArray = [...tweetArray, ...nmoreTweets.slice(1)];
+      tweetArray = [...tweetArray, ...nmoreTweets.slice(1)];
+    }
 
     setTweets(tweetArray);
 
-    const model = buildModel(tweetArray, 3);
-    console.log(model);
-    const chain = generateChain(model, 15); // need to check if length < max tweet length
-    console.log('chain', chain);
-    // then: render some sort of loading/processing indication to screen
-    // build markov model
-    // finally, render generated tweet to screen
+    const tweetModel = buildModel(tweetArray, 3);
+
+    setModel(tweetModel);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     getTweets(user);
+  };
+
+  const makeTweet = () => {
+    const chain = generateChain(model, 15);
+    console.log('chain', chain);
   };
 
   return (
@@ -94,6 +76,7 @@ const App = (): JSX.Element => {
         />
         <button type="submit">generate model</button>
       </form>
+      <button type="button" onClick={makeTweet}>make tweet</button>
       <section>
         {
           tweets.map((twt: ITweet) => (
