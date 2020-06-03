@@ -29,11 +29,34 @@ router.get('/twitter/:user', (req: Request, res: Response): Response => {
   const twitter = new Twit(twitterConfig);
 
   // @ts-ignore
-  const q = req.params.user;
+  const { user } = req.params;
 
-  twitter.get('search/tweets', {
-    q,
-    count: 10,
+  twitter.get('statuses/user_timeline', {
+    screen_name: user,
+    count: 200,
+    exclude_replies: true,
+    include_rts: false,
+  }, (err: Error, data: any) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.json(data);
+    }
+  });
+});
+
+router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
+  const twitter = new Twit(twitterConfig);
+
+  // @ts-ignore
+  const { user, maxId } = req.params;
+
+  twitter.get('statuses/user_timeline', {
+    screen_name: user,
+    count: 200,
+    max_id: maxId,
+    exclude_replies: true,
+    include_rts: false,
   }, (err: Error, data: any) => {
     if (err) {
       res.sendStatus(500);
