@@ -11,7 +11,8 @@ interface IModel {
 const buildModel = (tweets: ITweet[], n: number): IModel => {
   const model = {};
   tweets.forEach((tweet) => {
-    const txt = tweet.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    let txt = tweet.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    txt = txt.split('…').join('');
     const words = txt.split(' ');
     words.forEach((word, i) => {
       if (i === words.length - n) {
