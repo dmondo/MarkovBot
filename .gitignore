@@ -1,3 +1,7 @@
-/dist/
+/dist/lib/
+/dist/server/
+/dist/bundle.js
+/dist/src/components/
+/dist/src/index.js
 node_modules
 /lib/config.ts
