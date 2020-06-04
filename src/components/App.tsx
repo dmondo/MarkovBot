@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
-// import '../styles/App.css';
 
 // TODO use react context for state management
 const useStyles = makeStyles({
