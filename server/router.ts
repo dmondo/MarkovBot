@@ -1,8 +1,9 @@
 /* eslint no-unused-vars: 0 */
-import { Router, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import path from 'path';
 import Twit from 'twit';
 import twitterConfig from '../lib/config';
+import { saveMarkov, findMarkov } from './controllers/markov';
 
 const router = Router();
 
@@ -33,7 +34,7 @@ router.get('/twitter/:user', (req: Request, res: Response): Response => {
 
   twitter.get('statuses/user_timeline', {
     screen_name: user,
-    count: 200,
+    count: 2,
     exclude_replies: true,
     include_rts: false,
   }, (err: Error, data: any) => {
@@ -53,7 +54,7 @@ router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
 
   twitter.get('statuses/user_timeline', {
     screen_name: user,
-    count: 200,
+    count: 2,
     max_id: maxId,
     exclude_replies: true,
     include_rts: false,
@@ -64,6 +65,16 @@ router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
       res.json(data);
     }
   });
+});
+
+router.get('/models/:user', (req: Request, res: Response): Response => {
+  const { user } = req.params;
+  findMarkov(req, res, user);
+});
+
+router.post('/models/:user', (req: Request, res: Response): Response => {
+  const { user } = req.params;
+  saveMarkov(req, res, user, req.body);
 });
 
 export default router;
