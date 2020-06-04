@@ -1,7 +1,37 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
+// import '../styles/App.css';
+
 // TODO use react context for state management
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    maxWidth: 500,
+    marginLeft: 5,
+    backgroundColor: 'rgb(21, 32, 43)',
+    color: 'white',
+    borderColor: 'rgb(29, 161, 242)',
+  },
+  title: {
+    fontSize: 14,
+    color: 'white',
+  },
+  pos: {
+    marginBottom: 0,
+    color: 'white',
+  },
+  btn: {
+    marginTop: 0,
+    color: 'white',
+  },
+});
 
 interface ITweet {
   user: string;
@@ -17,6 +47,8 @@ const App = (): JSX.Element => {
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [model, setModel] = useState<IModel>({});
   const [ready, setReady] = useState<boolean>(false);
+
+  const classes = useStyles();
 
   // TODO: put this logic in lib folder?
   const getTweets = async (query: string): Promise<void> => {
@@ -92,7 +124,7 @@ const App = (): JSX.Element => {
   const makeTweet = () => {
     let newTweets = [...tweets];
     for (let i = 0; i < 10; i += 1) {
-      const chain = generateChain(model, 15, 3);
+      const chain = generateChain(model, 25, 3);
       const newTweet = { user, text: chain };
       newTweets = [newTweet, ...newTweets];
     }
@@ -111,14 +143,28 @@ const App = (): JSX.Element => {
           required
         />
         <button type="submit">generate model</button>
-      </form>
-      {ready && (
+        {ready && (
         <button type="button" onClick={makeTweet}>make tweet</button>
-      )}
+        )}
+      </form>
       <section>
         {
           tweets.map((twt: ITweet) => (
-            <div key={twt.text}>{`@${twt.user}: ${twt.text}`}</div>
+            <div key={twt.text}>
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography variant="body2" component="p">
+                    {twt.text}
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    {twt.user}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button className={classes.btn} size="small">hide</Button>
+                </CardActions>
+              </Card>
+            </div>
           ))
         }
       </section>
