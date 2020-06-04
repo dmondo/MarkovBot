@@ -8,10 +8,14 @@ interface ITweet {
   id: string;
 }
 
+interface IModel {
+  [key: string]: string;
+}
+
 const App = (): JSX.Element => {
   const [user, setUser] = useState<string>('');
   const [tweets, setTweets] = useState<ITweet[]>([]);
-  const [model, setModel] = useState<any>({});
+  const [model, setModel] = useState<IModel>({});
 
   const getTweets = async (query: string): Promise<void> => {
     let tweetArray = [];
@@ -49,7 +53,7 @@ const App = (): JSX.Element => {
 
     setTweets(tweetArray);
 
-    const tweetModel = buildModel(tweetArray, 3);
+    const tweetModel: IModel = buildModel(tweetArray, 3);
 
     setModel(tweetModel);
   };
