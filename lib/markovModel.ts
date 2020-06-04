@@ -4,7 +4,11 @@ interface ITweet {
   id: number;
 }
 
-const buildModel = (tweets: ITweet[], n: number): object => {
+interface IModel {
+  [key: string]: string;
+}
+
+const buildModel = (tweets: ITweet[], n: number): IModel => {
   const model = {};
   tweets.forEach((tweet) => {
     const txt = tweet.text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');

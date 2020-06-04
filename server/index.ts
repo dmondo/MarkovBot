@@ -8,7 +8,12 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '..')));
 
-app.use(parser.json());
+app.use(parser.urlencoded({
+  parameterLimit: 100000,
+  limit: '500mb',
+  extended: true,
+}));
+app.use(parser.json({ limit: '50mb' }));
 app.use(morgan('dev'));
 app.use(router);
 
