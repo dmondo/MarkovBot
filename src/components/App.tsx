@@ -5,7 +5,7 @@ import generateChain from '../../lib/generateChain';
 interface ITweet {
   user: string;
   text: string;
-  id: string;
+  // id: string;
 }
 
 interface IModel {
@@ -16,7 +16,9 @@ const App = (): JSX.Element => {
   const [user, setUser] = useState<string>('');
   const [tweets, setTweets] = useState<ITweet[]>([]);
   const [model, setModel] = useState<IModel>({});
+  const [ready, setReady] = useState<boolean>(false);
 
+  // TODO: put this logic in lib folder?
   const getTweets = async (query: string): Promise<void> => {
     const fetchModel = await fetch(`/models/${query}`);
     const existingModel = await fetchModel.json();
@@ -25,6 +27,7 @@ const App = (): JSX.Element => {
       const rawModel = existingModel[0].model;
       const parsedModel = JSON.parse(rawModel);
       setModel(parsedModel);
+      setReady(true);
       return;
     }
 
@@ -64,11 +67,12 @@ const App = (): JSX.Element => {
 
     // todo: tweetArray should actually be markov generated
     // tweets, NOT tweets from twitter api...
-    setTweets(tweetArray);
+    // setTweets(tweetArray);
 
     const tweetModel: IModel = buildModel(tweetArray, 3);
 
     setModel(tweetModel);
+    setReady(true);
 
     const url = `/models/${query}`;
     const method = 'POST';
@@ -81,20 +85,25 @@ const App = (): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    setReady(false);
     getTweets(user);
   };
 
-  // TODO: only render makeTweet button after model is generated
   const makeTweet = () => {
-    console.log('model', model);
-    const chain = generateChain(model, 15);
-    console.log('chain:', chain);
+    let newTweets = [...tweets];
+    for (let i = 0; i < 10; i += 1) {
+      const chain = generateChain(model, 15, 3);
+      const newTweet = { user, text: chain };
+      newTweets = [newTweet, ...newTweets];
+    }
+    setTweets(newTweets);
   };
 
   return (
     <>
       <h1>Tweets</h1>
       <form onSubmit={handleSubmit}>
+        @
         <input
           type="text"
           value={user}
@@ -103,11 +112,13 @@ const App = (): JSX.Element => {
         />
         <button type="submit">generate model</button>
       </form>
-      <button type="button" onClick={makeTweet}>make tweet</button>
+      {ready && (
+        <button type="button" onClick={makeTweet}>make tweet</button>
+      )}
       <section>
         {
           tweets.map((twt: ITweet) => (
-            <div key={twt.id}>{twt.text}</div>
+            <div key={twt.text}>{`@${twt.user}: ${twt.text}`}</div>
           ))
         }
       </section>
