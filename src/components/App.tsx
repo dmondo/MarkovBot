@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
+// TODO use react context for state management
 
 interface ITweet {
   user: string;
   text: string;
-  // id: string;
 }
 
 interface IModel {
