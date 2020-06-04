@@ -34,7 +34,7 @@ router.get('/twitter/:user', (req: Request, res: Response): Response => {
 
   twitter.get('statuses/user_timeline', {
     screen_name: user,
-    count: 2,
+    count: 200,
     exclude_replies: true,
     include_rts: false,
   }, (err: Error, data: any) => {
@@ -54,7 +54,7 @@ router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
 
   twitter.get('statuses/user_timeline', {
     screen_name: user,
-    count: 2,
+    count: 200,
     max_id: maxId,
     exclude_replies: true,
     include_rts: false,
