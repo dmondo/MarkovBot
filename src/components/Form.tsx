@@ -1,11 +1,9 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Store } from '../store/Store';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
-
-// interface IModel {
-//   [key: string]: string;
-// }
+import TweetToModel from '../../lib/TweetToModel';
 
 const Form = (): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);
@@ -16,7 +14,6 @@ const Form = (): JSX.Element => {
     model,
   } = state;
 
-  // TODO: put this logic in lib folder?
   const getTweets = async (query: string): Promise<void> => {
     const fetchModel = await fetch(`/models/${query}`);
     const existingModel = await fetchModel.json();
@@ -29,42 +26,7 @@ const Form = (): JSX.Element => {
       return;
     }
 
-    // model for user doesn't exist, fetch tweets and build
-    let tweetArray = [];
-    const res = await fetch(`/twitter/${query}`);
-    const twts = await res.json();
-
-    const moreTweets = twts.map((twt: any) => (
-      {
-        user: twt.user.name,
-        text: twt.text,
-        id: twt.id_str,
-      }
-    ));
-
-    tweetArray = [...tweetArray, ...moreTweets];
-
-    for (let i = 0; i < 18; i += 1) {
-      const maxId = tweetArray[tweetArray.length - 1].id;
-
-      // ignore linter because we need blocking between iterations
-      /* eslint no-await-in-loop: 0 */
-      const nres = await fetch(`/twitter/${query}/${maxId}`);
-      const ntwts = await nres.json();
-
-      const nmoreTweets = ntwts.map((twt: any) => (
-        {
-          user: twt.user.name,
-          text: twt.text,
-          id: twt.id_str,
-        }
-      ));
-
-      tweetArray = [...tweetArray, ...nmoreTweets.slice(1)];
-    }
-
-    // todo: tweetArray should actually be markov generated
-    // tweets, NOT tweets from twitter api...
+    const tweetArray = await TweetToModel(query);
 
     const tweetModel: IModel = buildModel(tweetArray, 3);
 
@@ -90,7 +52,8 @@ const Form = (): JSX.Element => {
     let newTweets = [...tweets];
     for (let i = 0; i < 10; i += 1) {
       const chain = generateChain(model, 25, 3);
-      const newTweet = { user, text: chain };
+      // uuid HERE
+      const newTweet = { user, text: chain, uuid: uuidv4() };
       newTweets = [newTweet, ...newTweets];
     }
     dispatch({ type: 'TWEETS', payload: newTweets });
