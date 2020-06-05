@@ -6,6 +6,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Store } from '../store/Store';
 
 const useStyles = makeStyles({
   root: {
@@ -34,14 +35,28 @@ const useStyles = makeStyles({
 const Tweet = ({ twt }): JSX.Element => {
   const classes = useStyles();
 
+  const { dispatch } = React.useContext(Store);
+
   const saveTweet = () => {
     const url = '/history';
     const method = 'POST';
     const headers = { 'Content-Type': 'application/json' };
     const body = JSON.stringify(twt);
     const options = { method, headers, body };
+    (async () => {
+      await fetch(url, options);
+      const dbdata = await fetch('/history');
+      const mongooseHistory = await dbdata.json();
 
-    fetch(url, options);
+      const parsedHistory = mongooseHistory.map((hist) => (
+        {
+          user: hist.user,
+          text: hist.text,
+        }
+      ));
+
+      dispatch({ type: 'HISTORY', payload: parsedHistory });
+    })();
   };
 
   return (
