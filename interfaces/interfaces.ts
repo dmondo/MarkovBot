@@ -1,6 +1,7 @@
 interface ITweet {
   user: string;
   text: string;
+  uuid: string;
 }
 
 interface IModel {
@@ -29,4 +30,5 @@ interface IMKVTweet {
   user: string;
   text: string;
   id: number;
+  uuid: string;
 }
