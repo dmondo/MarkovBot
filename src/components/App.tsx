@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
+import { Store } from '../store/Store';
 
 // TODO use react context for state management
 // TODO split into different components...
@@ -45,10 +46,19 @@ interface IModel {
 }
 
 const App = (): JSX.Element => {
-  const [user, setUser] = useState<string>('');
-  const [tweets, setTweets] = useState<ITweet[]>([]);
-  const [model, setModel] = useState<IModel>({});
-  const [ready, setReady] = useState<boolean>(false);
+  // TODO: use useEffect hook to load previously liked tweets from db
+  const { state, dispatch } = React.useContext(Store);
+
+  const {
+    user,
+    tweets,
+    model,
+    ready,
+  } = state;
+  // const [user, setUser] = useState<string>('');
+  // const [tweets, setTweets] = useState<ITweet[]>([]);
+  // const [model, setModel] = useState<IModel>({});
+  // const [ready, setReady] = useState<boolean>(false);
 
   const classes = useStyles();
 
@@ -60,8 +70,10 @@ const App = (): JSX.Element => {
     if (existingModel.length) {
       const rawModel = existingModel[0].model;
       const parsedModel = JSON.parse(rawModel);
-      setModel(parsedModel);
-      setReady(true);
+      dispatch({ type: 'MODEL', payload: parsedModel });
+      dispatch({ type: 'READY', payload: true });
+      // setModel(parsedModel);
+      // setReady(true);
       return;
     }
 
@@ -105,8 +117,10 @@ const App = (): JSX.Element => {
 
     const tweetModel: IModel = buildModel(tweetArray, 3);
 
-    setModel(tweetModel);
-    setReady(true);
+    dispatch({ type: 'MODEL', payload: tweetModel });
+    dispatch({ type: 'READY', payload: true });
+    // setModel(tweetModel);
+    // setReady(true);
 
     const url = `/models/${query}`;
     const method = 'POST';
@@ -119,7 +133,8 @@ const App = (): JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setReady(false);
+    dispatch({ type: 'READY', payload: false });
+    // setReady(false);
     getTweets(user);
   };
 
@@ -130,7 +145,8 @@ const App = (): JSX.Element => {
       const newTweet = { user, text: chain };
       newTweets = [newTweet, ...newTweets];
     }
-    setTweets(newTweets);
+    dispatch({ type: 'TWEETS', payload: newTweets });
+    // setTweets(newTweets);
   };
 
   return (
@@ -142,12 +158,13 @@ const App = (): JSX.Element => {
               Generate a markov model from a user handle
             </h1>
             {/* @ts-ignore */}
-            <form onSubmit={handleSubmit} style={{ 'margin-bottom': '10px' }}>
+            <form onSubmit={handleSubmit} style={{ marginBottom: '10px' }}>
               @
               <input
                 type="text"
                 value={user}
-                onChange={(e) => setUser(e.target.value)}
+                // onChange={(e) => setUser(e.target.value)}
+                onChange={(e) => dispatch({ type: 'USER', payload: e.target.value })}
                 required
               />
               <button type="submit">generate model</button>
@@ -180,7 +197,7 @@ const App = (): JSX.Element => {
           <Grid item sm={6}>
             <br />
             {/* @ts-ignore */}
-            <h1 style={{ 'margin-bottom': '10px', 'margin-left': '10px' }}>
+            <h1 style={{ marginBottom: '10px', marginLeft: '10px' }}>
               popular generated tweets
             </h1>
             <section>
