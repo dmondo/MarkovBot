@@ -1,27 +1,5 @@
 import React from 'react';
 
-// interface ITweet {
-//   user: string;
-//   text: string;
-// }
-
-// interface IModel {
-//   [key: string]: string;
-// }
-
-// interface IState {
-//   user: string;
-//   tweets: ITweet[];
-//   model: IModel;
-//   ready: boolean;
-//   history: ITweet[];
-// }
-
-// interface IAction {
-//   type: string;
-//   payload: any;
-// }
-
 const initialState: IState = {
   user: '',
   tweets: [],
