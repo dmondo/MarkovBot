@@ -10,6 +10,7 @@ mongoose.connect(cnx);
 const saveModel = async (data: IDBModel, callback: Function): Promise<void> => {
   let markov = new Markov();
   markov = Object.assign(markov, data);
+
   try {
     const saved = await markov.save();
     callback(null, saved);
@@ -28,7 +29,7 @@ const findModel = async (user: string, callback: Function): Promise<void> => {
 };
 
 const saveTweet = async (data: ITweet, callback: Function): Promise<void> => {
-  const found = await Tweet.find({ user: data.user, text: data.text });
+  const found = await Tweet.find({ user: data.user, text: data.text, uuid: data.uuid });
 
   if (found.length) { return; }
 
