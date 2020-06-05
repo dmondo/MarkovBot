@@ -6,6 +6,7 @@ const saveHistory = (req: Request, res: Response): Response => {
   const data = {
     user: req.body.user,
     text: req.body.text,
+    uuid: req.body.uuid,
   };
 
   saveTweet(data, (err: Error) => {
@@ -17,9 +18,8 @@ const saveHistory = (req: Request, res: Response): Response => {
   });
 };
 
-// TODO fix any type, change to async await?
 const findHistory = (req: Request, res: Response): Response => {
-  findTweets((err: Error, data: any) => {
+  findTweets((err: Error, data: ITweet) => {
     if (err) {
       res.sendStatus(500);
     } else {

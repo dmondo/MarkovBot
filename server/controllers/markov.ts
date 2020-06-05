@@ -18,7 +18,7 @@ const saveMarkov = (req: Request, res: Response, user: string, body: string): Re
 };
 
 const findMarkov = (req: Request, res: Response, user: string): Response => {
-  findModel(user, (err: Error, data: any) => {
+  findModel(user, (err: Error, data: IModel) => {
     if (err) {
       res.sendStatus(500);
     } else {
