@@ -1,5 +1,6 @@
 /dist/lib/
 /dist/server/
+/dist/src/store
 /dist/bundle.js
 /dist/src/components/
 /dist/src/index.js
