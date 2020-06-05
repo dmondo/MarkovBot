@@ -16,37 +16,50 @@ interface ITweet {
   text: string;
 }
 
-// TODO refactor all to async await
-// TODO change return type from any
 // TODO: if user exists in db, overwrite instead
-const saveModel = (data: IModel, callback: Function): void => {
+const saveModel = async (data: IModel, callback: Function): Promise<void> => {
   let markov = new Markov();
   markov = Object.assign(markov, data);
-
-  markov.save()
-    .then(() => callback(null, 'success'))
-    .catch((err: Error) => callback(err));
+  try {
+    const saved = await markov.save();
+    callback(null, saved);
+  } catch (err) {
+    callback(err);
+  }
 };
 
-const findModel = (user: string, callback: Function): any => {
-  Markov.find({ user })
-    .then((data: any) => callback(null, data.map((doc: any) => doc.toObject())))
-    .catch((err: Error) => callback(err));
+const findModel = async (user: string, callback: Function): Promise<void> => {
+  try {
+    const found = await Markov.find({ user });
+    callback(null, found.map((doc: any) => doc.toObject()));
+  } catch (err) {
+    callback(err);
+  }
 };
 
-const saveTweet = (data: ITweet, callback: Function): void => {
+const saveTweet = async (data: ITweet, callback: Function): Promise<void> => {
+  const found = await Tweet.find({ user: data.user, text: data.text });
+
+  if (found.length) { return; }
+
   let tweet = new Tweet();
   tweet = Object.assign(tweet, data);
 
-  tweet.save()
-    .then(() => callback(null, 'success'))
-    .catch((err: Error) => callback(err));
+  try {
+    await tweet.save();
+    callback(null, 'success');
+  } catch (err) {
+    callback(err);
+  }
 };
 
-const findTweets = (callback: Function): any => {
-  Tweet.find({})
-    .then((data: any) => callback(null, data.map((doc: any) => doc.toObject())))
-    .catch((err: Error) => callback(err));
+const findTweets = async (callback: Function): Promise<void> => {
+  try {
+    const found = await Tweet.find({});
+    callback(null, found.map((doc: any) => doc.toObject()));
+  } catch (err) {
+    callback(err);
+  }
 };
 
 export {
