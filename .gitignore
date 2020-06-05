@@ -1,4 +1,5 @@
 /dist/lib/
+/dist/interfaces/
 /dist/server/
 /dist/src/store
 /dist/bundle.js

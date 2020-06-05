@@ -2,7 +2,7 @@
 [x] refactor app into multiple components
 [] testing suite
 [x] mongoose likedTweets model + express route + react onClick handler
-[] interface file
+[x] interface file
 [] loading icon while model builds
 [] misc todos
 [] refactor styles into separate file
