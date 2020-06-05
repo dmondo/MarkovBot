@@ -4,6 +4,7 @@ import path from 'path';
 import Twit from 'twit';
 import twitterConfig from '../lib/config';
 import { saveMarkov, findMarkov } from './controllers/markov';
+import { saveHistory, findHistory } from './controllers/tweet';
 
 const router = Router();
 
@@ -75,6 +76,14 @@ router.get('/models/:user', (req: Request, res: Response): Response => {
 router.post('/models/:user', (req: Request, res: Response): Response => {
   const { user } = req.params;
   saveMarkov(req, res, user, req.body);
+});
+
+router.get('/history', (req: Request, res: Response): Response => {
+  findHistory(req, res);
+});
+
+router.post('/history', (req: Request, res: Response): Response => {
+  saveHistory(req, res);
 });
 
 export default router;
