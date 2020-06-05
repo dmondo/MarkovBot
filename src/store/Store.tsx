@@ -1,31 +1,33 @@
 import React from 'react';
 
-interface ITweet {
-  user: string;
-  text: string;
-}
+// interface ITweet {
+//   user: string;
+//   text: string;
+// }
 
-interface IModel {
-  [key: string]: string;
-}
+// interface IModel {
+//   [key: string]: string;
+// }
 
-interface IState {
-  user: string;
-  tweets: ITweet[];
-  model: IModel;
-  ready: boolean;
-}
+// interface IState {
+//   user: string;
+//   tweets: ITweet[];
+//   model: IModel;
+//   ready: boolean;
+//   history: ITweet[];
+// }
 
-interface IAction {
-  type: string;
-  payload: any;
-}
+// interface IAction {
+//   type: string;
+//   payload: any;
+// }
 
 const initialState: IState = {
   user: '',
   tweets: [],
   model: {},
   ready: false,
+  history: [],
 };
 
 export const Store = React.createContext<IState | any>(initialState);
@@ -40,6 +42,8 @@ const reducer = (state: IState, action: IAction): IState => {
       return { ...state, model: action.payload };
     case 'READY':
       return { ...state, ready: action.payload };
+    case 'HISTORY':
+      return { ...state, history: action.payload };
     default:
       return state;
   }

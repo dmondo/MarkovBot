@@ -1,6 +1,6 @@
 /* eslint no-unused-vars: 0 */
 import { Request, Response } from 'express';
-import { save, find } from '../database/index';
+import { saveModel, findModel } from '../database/index';
 
 const saveMarkov = (req: Request, res: Response, user: string, body: string): Response => {
   const data = {
@@ -8,7 +8,7 @@ const saveMarkov = (req: Request, res: Response, user: string, body: string): Re
     model: JSON.stringify(body),
   };
 
-  save(data, (err: Error) => {
+  saveModel(data, (err: Error) => {
     if (err) {
       res.sendStatus(500);
     } else {
@@ -18,7 +18,7 @@ const saveMarkov = (req: Request, res: Response, user: string, body: string): Re
 };
 
 const findMarkov = (req: Request, res: Response, user: string): Response => {
-  find(user, (err: Error, data: any) => {
+  findModel(user, (err: Error, data: any) => {
     if (err) {
       res.sendStatus(500);
     } else {

@@ -3,9 +3,9 @@ import { Store } from '../store/Store';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
 
-interface IModel {
-  [key: string]: string;
-}
+// interface IModel {
+//   [key: string]: string;
+// }
 
 const Form = (): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);
