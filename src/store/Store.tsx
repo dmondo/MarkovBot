@@ -14,6 +14,7 @@ interface IState {
   tweets: ITweet[];
   model: IModel;
   ready: boolean;
+  history: ITweet[];
 }
 
 interface IAction {
@@ -26,6 +27,7 @@ const initialState: IState = {
   tweets: [],
   model: {},
   ready: false,
+  history: [],
 };
 
 export const Store = React.createContext<IState | any>(initialState);
@@ -40,6 +42,8 @@ const reducer = (state: IState, action: IAction): IState => {
       return { ...state, model: action.payload };
     case 'READY':
       return { ...state, ready: action.payload };
+    case 'HISTORY':
+      return { ...state, history: action.payload };
     default:
       return state;
   }
