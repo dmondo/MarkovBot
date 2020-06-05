@@ -16,12 +16,15 @@ const History = (): JSX.Element => {
         {
           user: twt.user,
           text: twt.text,
+          uuid: twt.uuid,
         }
       ));
 
       dispatch({ type: 'HISTORY', payload: parsedHistory });
     })();
   }, []);
+
+  console.log('history', history);
 
   return (
     <>
@@ -32,7 +35,7 @@ const History = (): JSX.Element => {
       <section>
         {
           history.map((twt) => (
-            <Tweet twt={twt} key={twt.text} />
+            <Tweet twt={twt} key={twt.uuid} />
           ))
         }
       </section>

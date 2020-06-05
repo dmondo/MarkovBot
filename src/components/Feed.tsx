@@ -11,7 +11,7 @@ const Feed = (): JSX.Element => {
       <section>
         {
           tweets.map((twt) => (
-            <Tweet twt={twt} key={twt.text} />
+            <Tweet twt={twt} key={twt.uuid} />
           ))
         }
       </section>
