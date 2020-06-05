@@ -5,6 +5,7 @@
 [x] interface file
 [] loading icon while model builds
 [] misc todos
-[] refactor styles into separate file
-[] assign uuid to all tweets?
+[x] refactor styles into separate file
+[x] assign uuid to all tweets?
+[] README file
 [] deploy
