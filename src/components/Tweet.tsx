@@ -33,6 +33,17 @@ const useStyles = makeStyles({
 
 const Tweet = ({ twt }): JSX.Element => {
   const classes = useStyles();
+
+  const saveTweet = () => {
+    const url = '/history';
+    const method = 'POST';
+    const headers = { 'Content-Type': 'application/json' };
+    const body = JSON.stringify(twt);
+    const options = { method, headers, body };
+
+    fetch(url, options);
+  };
+
   return (
     <>
       <Card className={classes.root} variant="outlined">
@@ -45,7 +56,13 @@ const Tweet = ({ twt }): JSX.Element => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button className={classes.btn} size="small">like</Button>
+          <Button
+            className={classes.btn}
+            size="small"
+            onClick={() => saveTweet()}
+          >
+            like
+          </Button>
         </CardActions>
       </Card>
     </>
