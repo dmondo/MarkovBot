@@ -52,6 +52,7 @@ const Tweet = ({ twt }): JSX.Element => {
         {
           user: hist.user,
           text: hist.text,
+          uuid: hist.uuid,
         }
       ));
 
