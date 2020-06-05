@@ -5,10 +5,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
 
 // TODO use react context for state management
+// TODO split into different components...
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -17,6 +19,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgb(21, 32, 43)',
     color: 'white',
     borderColor: 'rgb(29, 161, 242)',
+    flexGrow: 1,
   },
   title: {
     fontSize: 14,
@@ -132,41 +135,85 @@ const App = (): JSX.Element => {
 
   return (
     <>
-      <h1>Tweets</h1>
-      <form onSubmit={handleSubmit}>
-        @
-        <input
-          type="text"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-          required
-        />
-        <button type="submit">generate model</button>
-        {ready && (
-        <button type="button" onClick={makeTweet}>make tweet</button>
-        )}
-      </form>
-      <section>
-        {
-          tweets.map((twt: ITweet) => (
-            <div key={twt.text}>
+      <Grid item xs={12}>
+        <Grid container justify="flex-start" spacing={2}>
+          <Grid item sm={6}>
+            <h1>
+              Generate a markov model from a user handle
+            </h1>
+            {/* @ts-ignore */}
+            <form onSubmit={handleSubmit} style={{ 'margin-bottom': '10px' }}>
+              @
+              <input
+                type="text"
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                required
+              />
+              <button type="submit">generate model</button>
+              {ready && (
+              <button type="button" onClick={makeTweet}>make tweets</button>
+              )}
+            </form>
+            <section>
+              {
+                tweets.map((twt: ITweet) => (
+                  <div key={twt.text}>
+                    <Card className={classes.root} variant="outlined">
+                      <CardContent>
+                        <Typography variant="body2" component="p">
+                          {twt.text}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                          {twt.user}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button className={classes.btn} size="small">like</Button>
+                      </CardActions>
+                    </Card>
+                  </div>
+                ))
+              }
+            </section>
+          </Grid>
+          <Grid item sm={6}>
+            <br />
+            {/* @ts-ignore */}
+            <h1 style={{ 'margin-bottom': '10px', 'margin-left': '10px' }}>
+              popular generated tweets
+            </h1>
+            <section>
               <Card className={classes.root} variant="outlined">
                 <CardContent>
                   <Typography variant="body2" component="p">
-                    {twt.text}
+                    space! You have about one week left to complete your astronaut application.
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {twt.user}
+                    nasa
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button className={classes.btn} size="small">hide</Button>
+                  <Button className={classes.btn} size="small">remove</Button>
                 </CardActions>
               </Card>
-            </div>
-          ))
-        }
-      </section>
+              <Card className={classes.root} variant="outlined">
+                <CardContent>
+                  <Typography variant="body2" component="p">
+                    We Will Learn Obama ‘Knew Everything’
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                    realdonaldtrump
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button className={classes.btn} size="small">remove</Button>
+                </CardActions>
+              </Card>
+            </section>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };
