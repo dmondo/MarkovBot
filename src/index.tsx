@@ -2,14 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import './styles/App.css';
-
-const Store = React.createContext('');
-
-const test = 'testval';
+import { StoreProvider } from './store/Store';
 
 ReactDOM.render(
-  <Store.Provider value={test}>
+  <StoreProvider>
     <App />
-  </Store.Provider>,
+  </StoreProvider>,
   document.getElementById('twitter-app'),
 );
