@@ -6,4 +6,5 @@
 [] loading icon while model builds
 [] misc todos
 [] refactor styles into separate file
+[] assign uuid to all tweets?
 [] deploy
