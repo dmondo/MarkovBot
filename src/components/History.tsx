@@ -23,8 +23,6 @@ const History = (): JSX.Element => {
     })();
   }, []);
 
-  console.log('history', history);
-
   return (
     <>
       <br />
