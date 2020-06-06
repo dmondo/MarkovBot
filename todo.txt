@@ -9,4 +9,6 @@
 [x] assign uuid to all tweets?
 [] README file
 [] if user exists in db, overwrite instead
+[] allow user to un-like tweet (will need cruD on mongodb)
+[] optimize markov model (2nd order?, different value of n? ... issue?)
 [] deploy
