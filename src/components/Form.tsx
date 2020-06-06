@@ -31,7 +31,7 @@ const Form = (): JSX.Element => {
 
     const tweetArray = await TweetToModel(query);
 
-    const tweetModel: IModel = buildModel(tweetArray, 3);
+    const tweetModel: IModel = buildModel(tweetArray, 2);
 
     dispatch({ type: 'MODEL', payload: tweetModel });
     dispatch({ type: 'READY', payload: true });
@@ -55,8 +55,17 @@ const Form = (): JSX.Element => {
   const makeTweet = () => {
     let newTweets = [...tweets];
     for (let i = 0; i < 10; i += 1) {
-      const chain = generateChain(model, 25, 3);
-      // uuid HERE
+      let retries = 30;
+      let chain = 'null';
+      while (retries > 0
+             && chain.split(' ').length < 5
+             && chain[chain.length - 1] !== '.'
+             && chain[chain.length - 1] !== '!'
+             && chain[chain.length - 1] !== '?'
+      ) {
+        chain = generateChain(model, 25, 2);
+        retries -= 1;
+      }
       const newTweet = { user, text: chain, uuid: uuidv4() };
       newTweets = [newTweet, ...newTweets];
     }
