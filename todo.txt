@@ -7,7 +7,7 @@
 [x] misc todos
 [x] refactor styles into separate file
 [x] assign uuid to all tweets?
-[] README file
+[x] README file
 [] if user exists in db, overwrite instead
 [x] allow user to un-like tweet (will need cruD on mongodb)
 [] optimize markov model (2nd order?, different value of n? ... issue?)
