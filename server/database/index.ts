@@ -52,9 +52,19 @@ const findTweets = async (callback: Function): Promise<void> => {
   }
 };
 
+const deleteTweet = async (data: string, callback: Function): Promise<void> => {
+  try {
+    await Tweet.findOneAndDelete({ uuid: data });
+    callback(null, 'success');
+  } catch (err) {
+    callback(err);
+  }
+};
+
 export {
   saveModel,
   findModel,
   saveTweet,
   findTweets,
+  deleteTweet,
 };

@@ -4,7 +4,7 @@ import path from 'path';
 import Twit from 'twit';
 import twitterConfig from '../lib/config';
 import { saveMarkov, findMarkov } from './controllers/markov';
-import { saveHistory, findHistory } from './controllers/tweet';
+import { saveHistory, findHistory, deleteHistory } from './controllers/tweet';
 
 const router = Router();
 
@@ -84,6 +84,11 @@ router.get('/history', (req: Request, res: Response): Response => {
 
 router.post('/history', (req: Request, res: Response): Response => {
   saveHistory(req, res);
+});
+
+router.delete('/history/:uuid', (req: Request, res: Response): Response => {
+  const { uuid } = req.params;
+  deleteHistory(req, res, uuid);
 });
 
 export default router;

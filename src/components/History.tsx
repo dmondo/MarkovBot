@@ -32,7 +32,7 @@ const History = (): JSX.Element => {
       <section>
         {
           history.map((twt) => (
-            <Tweet twt={twt} key={twt.uuid} />
+            <Tweet twt={twt} key={twt.uuid} status="remove" />
           ))
         }
       </section>
