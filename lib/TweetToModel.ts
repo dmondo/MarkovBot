@@ -13,7 +13,7 @@ const TweetToModel = async (query: string): Promise<IMKVTweet[]> => {
 
   tweetArray = [...tweetArray, ...moreTweets];
 
-  for (let i = 0; i < 18; i += 1) {
+  for (let i = 0; i < 15; i += 1) {
     const maxId = tweetArray[tweetArray.length - 1].id;
 
     // ignore linter because we need blocking between iterations
