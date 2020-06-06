@@ -6,7 +6,6 @@ const cnx = process.env.MONGODB || 'mongodb://localhost/fetcher';
 
 mongoose.connect(cnx);
 
-// TODO: if user exists in db, overwrite instead
 const saveModel = async (data: IDBModel, callback: Function): Promise<void> => {
   let markov = new Markov();
   markov = Object.assign(markov, data);

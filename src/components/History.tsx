@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Store } from '../store/Store';
 import Tweet from './Tweet';
-// TODO refactor styles into own file
 
 const History = (): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);

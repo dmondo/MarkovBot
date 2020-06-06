@@ -4,8 +4,9 @@
 [x] mongoose likedTweets model + express route + react onClick handler
 [x] interface file
 [] loading icon while model builds
-[] misc todos
+[x] misc todos
 [x] refactor styles into separate file
 [x] assign uuid to all tweets?
 [] README file
+[] if user exists in db, overwrite instead
 [] deploy
