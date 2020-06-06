@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Tweet = ({ twt }): JSX.Element => {
+const Tweet = ({ twt, status }): JSX.Element => {
   const classes = useStyles();
 
   const { dispatch } = React.useContext(Store);
@@ -60,6 +60,31 @@ const Tweet = ({ twt }): JSX.Element => {
     })();
   };
 
+  const deleteTweet = () => {
+    const url = `/history/${twt.uuid}`;
+    const method = 'DELETE';
+    const options = { method };
+    (async () => {
+      await fetch(url, options);
+      const dbdata = await fetch('/history');
+      const mongooseHistory = await dbdata.json();
+
+      const parsedHistory = mongooseHistory.map((hist) => (
+        {
+          user: hist.user,
+          text: hist.text,
+          uuid: hist.uuid,
+        }
+      ));
+
+      dispatch({ type: 'HISTORY', payload: parsedHistory });
+    })();
+  };
+
+  const handleTweet = () => (
+    (status === 'like') ? saveTweet() : deleteTweet()
+  );
+
   return (
     <>
       <Card className={classes.root} variant="outlined">
@@ -75,9 +100,9 @@ const Tweet = ({ twt }): JSX.Element => {
           <Button
             className={classes.btn}
             size="small"
-            onClick={() => saveTweet()}
+            onClick={() => handleTweet()}
           >
-            like
+            {status}
           </Button>
         </CardActions>
       </Card>
@@ -89,7 +114,9 @@ Tweet.propTypes = {
   twt: PropTypes.shape({
     user: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
   }).isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default Tweet;
