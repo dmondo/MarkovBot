@@ -6,6 +6,7 @@ const initialState: IState = {
   model: {},
   ready: false,
   history: [],
+  loading: false,
 };
 
 export const Store = React.createContext<IState | any>(initialState);
@@ -22,6 +23,8 @@ const reducer = (state: IState, action: IAction): IState => {
       return { ...state, ready: action.payload };
     case 'HISTORY':
       return { ...state, history: action.payload };
+    case 'LOADING':
+      return { ...state, loading: action.payload };
     default:
       return state;
   }

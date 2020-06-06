@@ -3,7 +3,7 @@
 [] testing suite
 [x] mongoose likedTweets model + express route + react onClick handler
 [x] interface file
-[] loading icon while model builds
+[x] loading icon while model builds
 [x] misc todos
 [x] refactor styles into separate file
 [x] assign uuid to all tweets?

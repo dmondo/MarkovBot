@@ -4,6 +4,7 @@ import { Store } from '../store/Store';
 import buildModel from '../../lib/markovModel';
 import generateChain from '../../lib/generateChain';
 import TweetToModel from '../../lib/TweetToModel';
+import Loader from './Loader';
 
 const Form = (): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);
@@ -12,6 +13,7 @@ const Form = (): JSX.Element => {
     ready,
     tweets,
     model,
+    loading,
   } = state;
 
   const getTweets = async (query: string): Promise<void> => {
@@ -23,6 +25,7 @@ const Form = (): JSX.Element => {
       const parsedModel = JSON.parse(rawModel);
       dispatch({ type: 'MODEL', payload: parsedModel });
       dispatch({ type: 'READY', payload: true });
+      dispatch({ type: 'LOADING', payload: false });
       return;
     }
 
@@ -32,6 +35,7 @@ const Form = (): JSX.Element => {
 
     dispatch({ type: 'MODEL', payload: tweetModel });
     dispatch({ type: 'READY', payload: true });
+    dispatch({ type: 'LOADING', payload: false });
 
     const url = `/models/${query}`;
     const method = 'POST';
@@ -59,6 +63,10 @@ const Form = (): JSX.Element => {
     dispatch({ type: 'TWEETS', payload: newTweets });
   };
 
+  const loadBar = () => {
+    dispatch({ type: 'LOADING', payload: true });
+  };
+
   return (
     <>
       <h1>
@@ -73,9 +81,12 @@ const Form = (): JSX.Element => {
           onChange={(e) => dispatch({ type: 'USER', payload: e.target.value })}
           required
         />
-        <button type="submit">generate model</button>
+        <button type="submit" onClick={loadBar}>generate model</button>
+        {loading && (
+          <Loader />
+        )}
         {ready && (
-        <button type="button" onClick={makeTweet}>make tweets</button>
+          <button type="button" onClick={makeTweet}>make tweets</button>
         )}
       </form>
     </>

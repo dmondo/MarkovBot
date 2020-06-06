@@ -14,6 +14,7 @@ interface IState {
   model: IModel;
   ready: boolean;
   history: ITweet[];
+  loading: boolean;
 }
 
 interface IAction {
