@@ -7,3 +7,5 @@
 /dist/src/index.js
 node_modules
 /lib/config.ts
+dockerfile
+.env

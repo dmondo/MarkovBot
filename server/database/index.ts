@@ -1,10 +1,27 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import Markov from './models/markov';
 import Tweet from './models/tweets';
 
-const cnx = process.env.MONGODB || 'mongodb://localhost/fetcher';
+dotenv.config();
+const {
+  MONGO_HOSTNAME,
+  MONGO_DB,
+  MONGO_PORT,
+} = process.env;
 
-mongoose.connect(cnx);
+const cnxs = {
+  PROD: `mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`,
+  DEV: 'mongodb://localhost/fetcher',
+};
+
+const cnx = cnxs.PROD;
+
+mongoose.connect(cnx, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 
 const saveModel = async (data: IDBModel, callback: Function): Promise<void> => {
   let markov = new Markov();
