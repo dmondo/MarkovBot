@@ -6,9 +6,7 @@ Timelines are drawn from the Twitter REST api, which is rate-limited at 100,000 
 
 ## Tech Stack
 
-This project uses the MERN (MongoDB, ExpressJS, ReactJS, NodeJS) stack. Modules are written in typescript, compiled to javascript, transpiled for web compatibility using babel, and bundled with webpack.
-
-MongoDB CRUD is provided by Mongoose. Files follow the airbnb style guide and the testing suite is written in jest+enzyme.
+This project uses the MERN (MongoDB, ExpressJS, ReactJS, NodeJS) stack. Modules are written in TypeScript, compiled to JavaScript, transpiled for web compatibility using Babel, and bundled with Webpack. MongoDB CRUD is provided by Mongoose.
 
 ## Build Process
 
