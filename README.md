@@ -26,7 +26,7 @@ ensure you have a local instance of MongoDB running
 either set process.env.MONGODB to your desired database, or edit the database url in server/db/index.ts
 
 <pre><code>const connectURL = process.env.MONGODB ||
- 'mongodb://localhost/YOUR_DB_NAME';</code></pre>
+ 'mongodb://YOUR_PATH/YOUR_DB';</code></pre>
 
 either set process.env.PORT to your desired port, or edit the port in server/index.ts
 
