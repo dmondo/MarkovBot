@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -23,7 +24,7 @@ module.exports = {
   },
   rules:  {
     'react/jsx-filename-extension': [2, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
-    "import/extensions": "off"
+    "import/extensions": "off",
   },
   settings: {
   },
