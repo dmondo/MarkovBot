@@ -2,8 +2,6 @@ import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import {
   shallow,
-  mount,
-  render,
   configure,
 } from 'enzyme';
 import App from '../dist/src/components/App';
@@ -19,9 +17,5 @@ describe('app component', () => {
     expect(wrapper.find(Form)).toHaveLength(1);
     expect(wrapper.find(Feed)).toHaveLength(1);
     expect(wrapper.find(History)).toHaveLength(1);
-  });
-
-  it('should return a div element', () => {
-
   });
 });
