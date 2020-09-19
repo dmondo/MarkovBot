@@ -1,7 +1,6 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, mount } from 'enzyme';
-import { render, fireEvent, getByTestId } from '@testing-library/react';
 import History from '../dist/src/components/History';
 import { StoreProvider } from '../dist/src/store/Store';
 
