@@ -11,7 +11,7 @@ const History = (): JSX.Element => {
       const data = await fetch('/history');
       const mongooseHistory = await data.json();
 
-      const parsedHistory = mongooseHistory.map((twt) => (
+      const parsedHistory = mongooseHistory.map((twt: ITweet) => (
         {
           user: twt.user,
           text: twt.text,
@@ -31,7 +31,7 @@ const History = (): JSX.Element => {
       </h1>
       <section>
         {
-          history.map((twt) => (
+          history.map((twt: ITweet) => (
             <Tweet twt={twt} key={twt.uuid} status="remove" />
           ))
         }
