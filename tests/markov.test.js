@@ -1,5 +1,4 @@
 import buildModel from '../dist/lib/markovModel';
-import generateChain from '../dist/lib/generateChain';
 
 describe('Markov model', () => {
   it('building a model creates a dictionary whose keys are n-grams', () => {
