@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { createContext, useReducer } from 'react';
+import { IState, IAction, IContext } from './store.interfaces';
 
 const initialState: IState = {
   user: '',
@@ -9,7 +10,9 @@ const initialState: IState = {
   loading: false,
 };
 
-export const Store = React.createContext<IState | any>(initialState);
+const initialDispatch = () => {};
+
+export const Store = createContext<IContext>({ state: initialState, dispatch: initialDispatch });
 
 const reducer = (state: IState, action: IAction): IState => {
   switch (action.type) {
@@ -31,7 +34,7 @@ const reducer = (state: IState, action: IAction): IState => {
 };
 
 export const StoreProvider = (props: any): JSX.Element => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const { children } = props;
   return <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>;
 };
