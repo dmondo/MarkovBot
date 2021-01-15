@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Store } from '../store/Store';
-import Tweet from './Tweet';
+import { Store } from '../../store/Store';
+import Tweet from '../Tweet/Tweet';
 
 const History = (): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);

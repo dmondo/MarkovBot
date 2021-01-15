@@ -1,8 +1,8 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, mount } from 'enzyme';
-import Form from '../dist/src/components/Form';
-import { StoreProvider } from '../dist/src/store/Store';
+import Form from './Form';
+import { StoreProvider } from '../../store/Store';
 
 configure({ adapter: new Adapter() });
 

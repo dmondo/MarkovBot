@@ -1,18 +1,19 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, mount } from 'enzyme';
-import Loader from '../dist/src/components/Loader';
-import { StoreProvider } from '../dist/src/store/Store';
+import Feed from './Feed';
+import { StoreProvider } from '../../store/Store';
 
 configure({ adapter: new Adapter() });
 
-describe('loader component', () => {
-  it('should render correctly', () => {
+describe('feed component', () => {
+  it('should render a section element', () => {
     const wrapper = mount(
       <StoreProvider>
-        <Loader />
+        <Feed />
       </StoreProvider>,
     );
+    expect(wrapper.find('section')).toHaveLength(1);
     wrapper.unmount();
   });
 });

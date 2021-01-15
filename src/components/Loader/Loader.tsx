@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { Store } from '../store/Store';
+import { Store } from '../../store/Store';
 
 const override = css`
   display: block;
@@ -10,7 +10,8 @@ const override = css`
 `;
 
 const Loader = () => {
-  const { state: loading } = React.useContext(Store);
+  const { state } = React.useContext(Store);
+  const { loading } = state;
   return (
     <div className="sweet-loading">
       <BeatLoader

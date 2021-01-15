@@ -1,8 +1,8 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, mount } from 'enzyme';
-import Tweet from '../dist/src/components/Tweet';
-import { StoreProvider } from '../dist/src/store/Store';
+import Tweet from './Tweet';
+import { StoreProvider } from '../../store/Store';
 
 configure({ adapter: new Adapter() });
 
