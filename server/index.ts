@@ -4,6 +4,8 @@ import parser from 'body-parser';
 import path from 'path';
 import router from './router';
 
+const appEnv = process.env.ENVIRONMENT;
+
 const app = express();
 
 app.use(express.static(path.join(__dirname, '..')));
@@ -14,12 +16,9 @@ app.use(parser.urlencoded({
   extended: true,
 }));
 app.use(parser.json({ limit: '50mb' }));
-app.use(morgan('dev'));
+if (appEnv === 'development') { app.use(morgan('dev')); }
 app.use(router);
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  /*  eslint no-console: 0 */
-  console.log(`listening on port ${port}`);
-});
+app.listen(port);

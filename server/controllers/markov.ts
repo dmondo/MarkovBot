@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: 0 */
 import { Request, Response } from 'express';
 import { saveModel, findModel } from '../database/index';
 

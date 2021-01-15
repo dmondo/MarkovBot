@@ -1,21 +1,9 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import Markov from './models/markov';
 import Tweet from './models/tweets';
+import { IDBModel } from './database.interfaces';
 
-dotenv.config();
-const {
-  MONGO_HOSTNAME,
-  MONGO_DB,
-  MONGO_PORT,
-} = process.env;
-
-const cnxs = {
-  PROD: `mongodb://${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`,
-  DEV: 'mongodb://localhost/fetcher',
-};
-
-const cnx = cnxs.PROD;
+const cnx = process.env.DATABASE_URL;
 
 mongoose.connect(cnx, {
   useNewUrlParser: true,

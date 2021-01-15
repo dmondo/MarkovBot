@@ -2,9 +2,15 @@
 import { Router, Request, Response } from 'express';
 import path from 'path';
 import Twit from 'twit';
-import twitterConfig from '../lib/config';
 import { saveMarkov, findMarkov } from './controllers/markov';
 import { saveHistory, findHistory, deleteHistory } from './controllers/tweet';
+
+const twitterConfig = {
+  consumer_key: process.env.TWITTER_API_KEY,
+  consumer_secret: process.env.TWITTER_API_KEY_SECRET,
+  access_token: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+};
 
 const router = Router();
 
@@ -30,7 +36,6 @@ router.get('/twitter', (req: Request, res: Response): Response => {
 router.get('/twitter/:user', (req: Request, res: Response): Response => {
   const twitter = new Twit(twitterConfig);
 
-  // @ts-ignore
   const { user } = req.params;
 
   twitter.get('statuses/user_timeline', {
@@ -50,7 +55,6 @@ router.get('/twitter/:user', (req: Request, res: Response): Response => {
 router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
   const twitter = new Twit(twitterConfig);
 
-  // @ts-ignore
   const { user, maxId } = req.params;
 
   twitter.get('statuses/user_timeline', {
