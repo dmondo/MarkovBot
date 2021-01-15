@@ -2,6 +2,7 @@
 /dist/interfaces/
 /dist/server/
 /dist/src/store
+/dist/src/helpers
 /dist/bundle.js
 /dist/src/components/
 /dist/src/index.js
