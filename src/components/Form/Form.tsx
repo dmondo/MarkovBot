@@ -1,43 +1,31 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import { Store } from '../../store/Store';
-import buildModel from '../../../lib/markovModel';
 import TweetToModel from '../../../lib/TweetToModel';
 import Loader from '../Loader/Loader';
-import { postModel, generateTweets } from './form.helpers';
+import fetchChains from './form.helpers';
 
-const Form = (): JSX.Element => {
+const Form = ({ loading, handleLoading }): JSX.Element => {
   const { state, dispatch } = React.useContext(Store);
   const {
     user,
-    ready,
-    tweets,
-    model,
-    loading,
   } = state;
 
   const getTweets = async (query: string): Promise<void> => {
-    const fetchModel = await fetch(`/models/${query}`);
-    const existingModel = await fetchModel.json();
-
-    if (existingModel.length) {
-      const rawModel = existingModel[0].model;
-      const parsedModel = JSON.parse(rawModel);
-      dispatch({ type: 'MODEL', payload: parsedModel });
-      dispatch({ type: 'READY', payload: true });
-      dispatch({ type: 'LOADING', payload: false });
-      return;
-    }
-
     const tweetArray = await TweetToModel(query);
 
-    const tweetModel: IModel = buildModel(tweetArray, 2);
+    const apiResponse = await fetchChains(tweetArray);
+    const chains = await apiResponse.json();
+    const formattedTweets = chains.map((chain) => ({
+      user,
+      text: chain,
+      uuid: uuidv4(),
+    }));
 
-    dispatch({ type: 'MODEL', payload: tweetModel });
-    // TODO: move to useState in parent
+    dispatch({ type: 'TWEETS', payload: formattedTweets });
     dispatch({ type: 'READY', payload: true });
-    dispatch({ type: 'LOADING', payload: false });
-
-    await postModel(query, tweetModel);
+    handleLoading(false);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -46,14 +34,8 @@ const Form = (): JSX.Element => {
     getTweets(user);
   };
 
-  const makeTweet = () => {
-    const newTweets = generateTweets(user, tweets, model);
-    dispatch({ type: 'TWEETS', payload: newTweets });
-  };
-
   const loadBar = () => {
-    // TODO: move to useState in parent
-    dispatch({ type: 'LOADING', payload: true });
+    handleLoading(true);
   };
 
   return (
@@ -69,16 +51,18 @@ const Form = (): JSX.Element => {
           onChange={(e) => dispatch({ type: 'USER', payload: e.target.value })}
           required
         />
-        <button type="submit" onClick={loadBar}>generate model</button>
+        <button type="submit" onClick={loadBar}>make some tweets!</button>
         {loading && (
           <Loader />
-        )}
-        {ready && (
-          <button type="button" onClick={makeTweet}>make tweets</button>
         )}
       </form>
     </>
   );
+};
+
+Form.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  handleLoading: PropTypes.func.isRequired,
 };
 
 export default Form;
