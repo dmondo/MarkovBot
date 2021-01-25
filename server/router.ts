@@ -2,7 +2,6 @@
 import { Router, Request, Response } from 'express';
 import path from 'path';
 import Twit from 'twit';
-import { saveMarkov, findMarkov } from './controllers/markov';
 import { saveHistory, findHistory, deleteHistory } from './controllers/tweet';
 
 const twitterConfig = {
@@ -70,16 +69,6 @@ router.get('/twitter/:user/:maxId', (req: Request, res: Response): Response => {
       res.json(data);
     }
   });
-});
-
-router.get('/models/:user', (req: Request, res: Response): Response => {
-  const { user } = req.params;
-  findMarkov(req, res, user);
-});
-
-router.post('/models/:user', (req: Request, res: Response): Response => {
-  const { user } = req.params;
-  saveMarkov(req, res, user, req.body);
 });
 
 router.get('/history', (req: Request, res: Response): Response => {
