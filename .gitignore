@@ -1,11 +1,5 @@
-/dist/lib/
-/dist/interfaces/
-/dist/server/
-/dist/src/store
-/dist/src/helpers
-/dist/bundle.js
-/dist/src/components/
-/dist/src/index.js
+/dist/*
+!/dist/src/index.html
 node_modules
 dockerfile
 .env
