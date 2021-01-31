@@ -15,9 +15,8 @@ const Form = ({ loading, handleLoading }): JSX.Element => {
   const getTweets = async (query: string): Promise<void> => {
     const tweetArray = await TweetToModel(query);
 
-    const apiResponse = await fetchChains(tweetArray);
-    const chains = await apiResponse.json();
-    const formattedTweets = chains.map((chain) => ({
+    const chains = await fetchChains(tweetArray);
+    const formattedTweets = chains.map((chain: string[]) => ({
       user,
       text: chain,
       uuid: uuidv4(),
