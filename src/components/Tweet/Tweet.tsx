@@ -40,21 +40,15 @@ const Tweet = ({ twt, status }): JSX.Element => {
   const { dispatch } = React.useContext(Store);
 
   const saveTweet = async () => {
-    // TODO: refactor without iif
-    (async () => {
-      await postTweetToHistory(twt);
-      const parsedHistory = await getParsedHistory();
-      dispatch({ type: 'HISTORY', payload: parsedHistory });
-    })();
+    await postTweetToHistory(twt);
+    const parsedHistory = await getParsedHistory();
+    dispatch({ type: 'HISTORY', payload: parsedHistory });
   };
 
   const deleteTweet = async () => {
-    // TODO: refactor without iif
-    (async () => {
-      await deleteTweetFromHistory(twt.uuid);
-      const parsedHistory = await getParsedHistory();
-      dispatch({ type: 'HISTORY', payload: parsedHistory });
-    })();
+    await deleteTweetFromHistory(twt.uuid);
+    const parsedHistory = await getParsedHistory();
+    dispatch({ type: 'HISTORY', payload: parsedHistory });
   };
 
   const handleTweet = () => (
