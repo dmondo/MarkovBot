@@ -1,8 +1,8 @@
-/* eslint no-unused-vars: 0 */
 import { Router, Request, Response } from 'express';
 import path from 'path';
 import Twit from 'twit';
 import { saveHistory, findHistory, deleteHistory } from './controllers/tweet';
+import getMarkovChains from './controllers/markov';
 
 const twitterConfig = {
   consumer_key: process.env.TWITTER_API_KEY,
@@ -15,21 +15,6 @@ const router = Router();
 
 router.get('/', (req: Request, res: Response): Response => {
   res.sendFile(path.join(__dirname, '..', 'src', 'index.html'));
-});
-
-router.get('/twitter', (req: Request, res: Response): Response => {
-  const twitter = new Twit(twitterConfig);
-
-  twitter.get('search/tweets', {
-    q: 'banana',
-    count: 10,
-  }, (err: Error, data: any) => {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
 });
 
 router.get('/twitter/:user', (req: Request, res: Response): Response => {
@@ -82,6 +67,10 @@ router.post('/history', (req: Request, res: Response): Response => {
 router.delete('/history/:uuid', (req: Request, res: Response): Response => {
   const { uuid } = req.params;
   deleteHistory(req, res, uuid);
+});
+
+router.post('/chains', async (req: Request, res: Response): Response => {
+  getMarkovChains(req, res);
 });
 
 export default router;
