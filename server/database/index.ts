@@ -5,6 +5,7 @@ import Tweet from './models/tweets';
 dotenv.config();
 
 const cnx = process.env.DATABASE_URL;
+console.log(`cnx: ${cnx}`);
 
 mongoose.connect(cnx, {
   useNewUrlParser: true,

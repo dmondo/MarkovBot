@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "watch": true,
+    "watch": false,
     "lib": ["dom", "es2017"],
     "jsx": "react",
     "esModuleInterop": true,
