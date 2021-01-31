@@ -1,17 +1,18 @@
-const fetchChains = async (tweets: string[]): Promise<Response> => {
-  // TODO: should this route through router file? like the twitter stuff.
-  const url = `${process.env.API_URL}/chains`;
+const fetchChains = async (tweets: string[]): Promise<any> => {
+  const url = '/chains';
   const method = 'POST';
   const headers = { 'Content-Type': 'application/json' };
   const body = JSON.stringify({
-    text: tweets,
+    tweets,
     order: 3,
     length: 25,
-    num_chains: 10,
+    numChains: 10,
   });
   const options = { method, headers, body };
 
-  return fetch(url, options);
+  const response = await fetch(url, options);
+  const chains = await response.json();
+  return chains;
 };
 
 export default fetchChains;
